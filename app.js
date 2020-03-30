@@ -359,7 +359,7 @@ async function sendToDialogFlow(sender, textString, params) {
         };
         const responses = await sessionClient.detectIntent(request);
         
-        console.log("responses:"+JSON.stringify(data));
+        console.log("responses:"+JSON.stringify(responses));
         
         const result = responses[0].queryResult;
         handleDialogFlowResponse(sender, result);
