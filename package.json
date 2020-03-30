@@ -13,10 +13,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "dialogflow": "^0.8.2",
-    "express": "^4.16.4",
-    "request": "^2.88.0",
-    "uuid": "^3.3.2"
+    "body-parser": "*",
+    "dialogflow": "*",
+    "express": "*",
+    "request": "*",
+    "uuid": "*"
   }
 }
