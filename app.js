@@ -78,6 +78,7 @@ const sessionIds = new Map();
 
 // Index route
 app.get('/', function (req, res) {
+    console.log("Hello world, I am a chat bot");
     res.send('Hello world, I am a chat bot')
 })
 
@@ -103,7 +104,7 @@ app.post('/webhook/', function (req, res) {
     var data = req.body;
     console.log(JSON.stringify(data));
 
-
+    
 
     // Make sure this is a page subscription
     if (data.object == 'page') {
