@@ -85,7 +85,7 @@ async function sendToDialogFlow(data)
 //        console.log(sessionId);
 
         var sessionId = data.session.split('/')[4];
-//        console.log(sessionId);
+        console.log(sessionId);
 //        console.log(data.session.split('/'));
 
         //        sessionId = data.session;
@@ -94,13 +94,14 @@ async function sendToDialogFlow(data)
 //        console.log("session id "+sessionId);
 
         
-//          // Create a new session
-//          const sessionClient = new dialogflow.SessionsClient();
-//          const sessionPath = sessionClient.sessionPath(
-//              config.GOOGLE_PROJECT_ID,
-//              sessionId
-//          );
-//        
+          // Create a new session
+          const sessionClient = new dialogflow.SessionsClient();
+          const sessionPath = sessionClient.sessionPath(
+              config.GOOGLE_PROJECT_ID,
+              sessionId
+          );
+        console.log(sessionPath);
+        
 //        
 //        const request = {
 //            session: sessionPath,
