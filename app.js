@@ -84,7 +84,7 @@ async function sendToDialogFlow(data)
           // Create a new session
           const sessionClient = new dialogflow.SessionsClient();
           const sessionPath = sessionClient.sessionPath(
-              config.GOOGLE_PROJECT_ID,, 
+              config.GOOGLE_PROJECT_ID,
               sessionId
           );
         
