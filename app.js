@@ -72,7 +72,7 @@ app.post('/webhook/', function (req, res) {
     res.sendStatus(200);
 });
 
-async function sendToDialogFlow(data)
+async function sendToDialogFlow(data, params)
 {
     try {
 //        const sessionPath = sessionClient.sessionPath(
