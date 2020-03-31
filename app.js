@@ -71,6 +71,11 @@ app.post('/webhook/', function (req, res) {
     res.sendStatus(200);
 
     
+   
+    
+});
+async function sendToDialogFlow()
+{
     try {
         const sessionPath = sessionClient.sessionPath(
             config.GOOGLE_PROJECT_ID,
@@ -100,9 +105,9 @@ app.post('/webhook/', function (req, res) {
     } catch (e) {
         console.log('error');
         console.log(e);
-    }    
-    
-});
+    }     
+}
+
 
 
 // Spin up the server
