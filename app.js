@@ -117,6 +117,8 @@ async function sendToDialogFlow(data, params)
                 }
             }
         };
+        
+        console.log("session client"+sessionClient);
         const responses = await sessionClient.detectIntent(request);
         
         console.log("responses:"+JSON.stringify(responses));
