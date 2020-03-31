@@ -68,7 +68,8 @@ app.post('/webhook/', function (req, res) {
     var data = req.body;
     //console.log("sessionid"+data["session"]);
     console.log(JSON.stringify(data));
-    session = data['session'].split('/')[-1];
+    session = data['session'];
+    session = session.split('/')[-1];
     console.log("sessionid"+session);
     //sendToDialogFlow(data);
     res.sendStatus(200);
