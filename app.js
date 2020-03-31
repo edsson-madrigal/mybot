@@ -66,6 +66,7 @@ const sessionIds = new Map();
 app.post('/webhook/', function (req, res) {
     var data = req.body;
     //console.log("sessionid"+session);
+    console.log(data.session.split('/'));
     console.log(JSON.stringify(data));
     sendToDialogFlow(data);
     res.sendStatus(200);
