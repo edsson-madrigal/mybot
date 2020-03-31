@@ -67,7 +67,7 @@ app.post('/webhook/', function (req, res) {
     //console.log("HERE");
     var data = req.body;
     //console.log("sessionid"+data["session"]);
-    console.log(JSON.stringify(data));
+//    console.log(JSON.stringify(data));
     session = data['session'];
     session = session.split('/')[-1];
     console.log("sessionid"+session);
