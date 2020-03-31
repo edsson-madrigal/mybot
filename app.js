@@ -81,12 +81,12 @@ async function sendToDialogFlow(data)
 //        );
         //console.log(data);
         //console.log(data.session);
-        var sessionId = data.session;
-        console.log(sessionId);
+//        var sessionId = data.session;
+//        console.log(sessionId);
 
-        var sessionId = data.session.split('/');
-        console.log(sessionId[4]);
-        console.log(data.session.split('/'));
+        var sessionId = data.session.split('/')[4];
+//        console.log(sessionId);
+//        console.log(data.session.split('/'));
 
         //        sessionId = data.session;
 //        sessionId = sessionId.split('/')[-1];
