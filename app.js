@@ -78,6 +78,7 @@ async function sendToDialogFlow(data)
 //            config.GOOGLE_PROJECT_ID,
 //            sessionIds.get(sender)
 //        );
+        console.log(data);
         sessionId = data.session;
         sessionId = sessionId.split('/')[-1];
 
