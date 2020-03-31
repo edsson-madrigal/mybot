@@ -64,15 +64,10 @@ const sessionIds = new Map();
  *
  */
 app.post('/webhook/', function (req, res) {
-    //console.log("HERE");
     var data = req.body;
-    //console.log("sessionid"+data["session"]);
-    console.log(data.session);
+    //console.log("sessionid"+session);
     console.log(JSON.stringify(data));
-    session = data['session'];
-    session = session.split('/')[-1];
-    console.log("sessionid"+session);
-    //sendToDialogFlow(data);
+    sendToDialogFlow(data);
     res.sendStatus(200);
 });
 
@@ -83,8 +78,9 @@ async function sendToDialogFlow(data)
 //            config.GOOGLE_PROJECT_ID,
 //            sessionIds.get(sender)
 //        );
+        sessionId = data.session;
+        sessionId = session.split('/')[-1];
         
-        sessionId = data["session"].split('/')[-1];
         console.log("session id"+sessionId);
           // Create a new session
           const sessionClient = new dialogflow.SessionsClient();
