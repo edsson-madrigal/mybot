@@ -111,6 +111,11 @@ async function sendToDialogFlow(data)
         const result = responses[0].queryResult;
         handleDialogFlowResponse(sender, result);
     } catch (e) {
+        sessionId = data.session;
+        sessionId = sessionId.split('/')[-1];
+        
+        console.log("session id"+sessionId);
+
         console.log('error');
         console.log(e);
     }     
