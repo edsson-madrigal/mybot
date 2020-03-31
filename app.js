@@ -66,8 +66,6 @@ const sessionIds = new Map();
 app.post('/webhook/', function (req, res) {
     var data = req.body;
     console.log(JSON.stringify(data));
-    console.log(data.object);
-    console.log(data.entry);
     res.sendStatus(200);
 
     
