@@ -66,7 +66,7 @@ const sessionIds = new Map();
 app.post('/webhook/', function (req, res) {
     var data = req.body;
     //console.log("sessionid"+session);
-    console.log(data.session.split('/')[4]);
+    //console.log(data.session.split('/')[4]);
     console.log(JSON.stringify(data));
     sendToDialogFlow(data);
     res.sendStatus(200);
@@ -100,7 +100,7 @@ async function sendToDialogFlow(data)
               config.GOOGLE_PROJECT_ID,
               sessionId
           );
-        console.log(sessionPath);
+        console.log("session path "+sessionPath);
         
 //        
 //        const request = {
