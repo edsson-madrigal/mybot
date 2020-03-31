@@ -67,17 +67,28 @@ app.post('/webhook/', function (req, res) {
     console.log("HERE");
     var data = req.body;
     console.log(JSON.stringify(data));
+    sendToDialogFlow(data);
     res.sendStatus(200);
 });
 
-async function sendToDialogFlow()
+async function sendToDialogFlow(data)
 {
     try {
         const sessionPath = sessionClient.sessionPath(
             config.GOOGLE_PROJECT_ID,
             sessionIds.get(sender)
         );
-
+        
+        sessionId = data["session"];
+        console.log("session id"+sessionId);
+          // Create a new session
+          const sessionClient = new dialogflow.SessionsClient();
+          const sessionPath = sessionClient.sessionPath(
+              config.GOOGLE_PROJECT_ID,, 
+              sessionId
+          );
+        
+        
         const request = {
             session: sessionPath,
             queryInput: {
