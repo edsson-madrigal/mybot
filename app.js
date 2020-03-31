@@ -74,10 +74,10 @@ app.post('/webhook/', function (req, res) {
 async function sendToDialogFlow(data)
 {
     try {
-        const sessionPath = sessionClient.sessionPath(
-            config.GOOGLE_PROJECT_ID,
-            sessionIds.get(sender)
-        );
+//        const sessionPath = sessionClient.sessionPath(
+//            config.GOOGLE_PROJECT_ID,
+//            sessionIds.get(sender)
+//        );
         
         sessionId = data["session"];
         console.log("session id"+sessionId);
