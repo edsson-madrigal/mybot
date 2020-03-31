@@ -101,26 +101,26 @@ async function sendToDialogFlow(data)
               sessionId
           );
         console.log("session path "+sessionPath);
+        var textString = "something smart";
         
-//        
-//        const request = {
-//            session: sessionPath,
-//            queryInput: {
-//                text: {
-//                    text: textString,
-//                    languageCode: config.DF_LANGUAGE_CODE,
-//                },
-//            },
-//            queryParams: {
-//                payload: {
-//                    data: params
-//                }
-//            }
-//        };
-//        const responses = await sessionClient.detectIntent(request);
-//        
-//        console.log("responses:"+JSON.stringify(responses));
-//        
+        const request = {
+            session: sessionPath,
+            queryInput: {
+                text: {
+                    text: textString,
+                    languageCode: config.DF_LANGUAGE_CODE,
+                },
+            },
+            queryParams: {
+                payload: {
+                    data: params
+                }
+            }
+        };
+        const responses = await sessionClient.detectIntent(request);
+        
+        console.log("responses:"+JSON.stringify(responses));
+        
 //        const result = responses[0].queryResult;
 //        handleDialogFlowResponse(sender, result);
     } catch (e) {
