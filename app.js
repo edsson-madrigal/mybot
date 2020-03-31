@@ -79,7 +79,7 @@ async function sendToDialogFlow(data)
 //            sessionIds.get(sender)
 //        );
         sessionId = data.session;
-        sessionId = session.split('/')[-1];
+        sessionId = sessionId.split('/')[-1];
         
         console.log("session id"+sessionId);
           // Create a new session
