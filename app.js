@@ -82,34 +82,34 @@ async function sendToDialogFlow(data)
         sessionId = sessionId.split('/')[-1];
         
         console.log("session id "+sessionId);
-          // Create a new session
-          const sessionClient = new dialogflow.SessionsClient();
-          const sessionPath = sessionClient.sessionPath(
-              config.GOOGLE_PROJECT_ID,
-              sessionId
-          );
-        
-        
-        const request = {
-            session: sessionPath,
-            queryInput: {
-                text: {
-                    text: textString,
-                    languageCode: config.DF_LANGUAGE_CODE,
-                },
-            },
-            queryParams: {
-                payload: {
-                    data: params
-                }
-            }
-        };
-        const responses = await sessionClient.detectIntent(request);
-        
-        console.log("responses:"+JSON.stringify(responses));
-        
-        const result = responses[0].queryResult;
-        handleDialogFlowResponse(sender, result);
+//          // Create a new session
+//          const sessionClient = new dialogflow.SessionsClient();
+//          const sessionPath = sessionClient.sessionPath(
+//              config.GOOGLE_PROJECT_ID,
+//              sessionId
+//          );
+//        
+//        
+//        const request = {
+//            session: sessionPath,
+//            queryInput: {
+//                text: {
+//                    text: textString,
+//                    languageCode: config.DF_LANGUAGE_CODE,
+//                },
+//            },
+//            queryParams: {
+//                payload: {
+//                    data: params
+//                }
+//            }
+//        };
+//        const responses = await sessionClient.detectIntent(request);
+//        
+//        console.log("responses:"+JSON.stringify(responses));
+//        
+//        const result = responses[0].queryResult;
+//        handleDialogFlowResponse(sender, result);
     } catch (e) {
         console.log('error');
         console.log(e);
