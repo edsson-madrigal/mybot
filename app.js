@@ -64,14 +64,12 @@ const sessionIds = new Map();
  *
  */
 app.post('/webhook/', function (req, res) {
+    console.log("HERE");
     var data = req.body;
     console.log(JSON.stringify(data));
     res.sendStatus(200);
-
-    
-   
-    
 });
+
 async function sendToDialogFlow()
 {
     try {
