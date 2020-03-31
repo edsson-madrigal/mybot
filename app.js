@@ -81,7 +81,7 @@ async function sendToDialogFlow(data)
         sessionId = data.session;
         sessionId = sessionId.split('/')[-1];
         
-        console.log("session id"+sessionId);
+        console.log("session id "+sessionId);
           // Create a new session
           const sessionClient = new dialogflow.SessionsClient();
           const sessionPath = sessionClient.sessionPath(
