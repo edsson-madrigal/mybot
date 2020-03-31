@@ -81,7 +81,7 @@ async function sendToDialogFlow(data)
         //console.log(data);
         //console.log(data.session);
         sessionId = data.session;
-        console.log("session id "+sessionId);
+        console.log(sessionId);
 
         //        sessionId = data.session;
 //        sessionId = sessionId.split('/')[-1];
