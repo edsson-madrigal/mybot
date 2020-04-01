@@ -105,11 +105,10 @@ async function sendToDialogFlow2(sessionId, params) {
 app.post('/webhook/', function(req, res) {
     var data = req.body;
     console.log(JSON.stringify(data));
-    sendToDialogFlow(data);
-    res.sendStatus(200);
+    sendToDialogFlow(data,"",res);
 });
 
-async function sendToDialogFlow(data, params) {
+async function sendToDialogFlow(data, params, res) {
     try {
 
         var sessionId = data.session.split('/')[4];
@@ -139,6 +138,8 @@ async function sendToDialogFlow(data, params) {
             .detectIntent(request)
             .then(responses => {
 	            res.json(responses);
+				res.sendStatus(200);
+
 /*
                 console.log(request);
                 console.log(responses);
