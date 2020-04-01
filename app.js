@@ -137,7 +137,11 @@ async function sendToDialogFlow(data, params, res) {
         sessionClient
             .detectIntent(request)
             .then(responses => {
-	            res.json(responses);
+
+			res.json({
+			            "fulfillmentText": "HELL WORLD DOG"
+			        });
+//	            res.json(responses);
 				//res.sendStatus(200);
 
 /*
