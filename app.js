@@ -38,8 +38,6 @@ app.use(bodyParser.json());
 
 
 
-
-
 const credentials = {
     client_email: config.GOOGLE_CLIENT_EMAIL,
     private_key: config.GOOGLE_PRIVATE_KEY,
@@ -55,54 +53,16 @@ const sessionClient = new dialogflow.SessionsClient(
 
 const sessionIds = new Map();
 
+//sendToDialogFlow2("fbcd6e2b-70f3-f317-d135-1b09c83018bb");
 
-/*
- * All callbacks for Messenger are POST-ed. They will be sent to the same
- * webhook. Be sure to subscribe your app to your page to receive callbacks
- * for your page. 
- * https://developers.facebook.com/docs/messenger-platform/product-overview/setup#subscribe_app
- *
- */
-app.post('/webhook/', function (req, res) {
-    var data = req.body;
-    //console.log("sessionid"+session);
-    //console.log(data.session.split('/')[4]);
-    console.log(JSON.stringify(data));
-    sendToDialogFlow(data);
-    res.sendStatus(200);
-});
-
-async function sendToDialogFlow(data, params)
-{
+async function sendToDialogFlow2(sessionId, params) {
     try {
-//        const sessionPath = sessionClient.sessionPath(
-//            config.GOOGLE_PROJECT_ID,
-//            sessionIds.get(sender)
-//        );
-        //console.log(data);
-        //console.log(data.session);
-//        var sessionId = data.session;
-//        console.log(sessionId);
-
-        var sessionId = data.session.split('/')[4];
-        console.log(sessionId);
-//        console.log(data.session.split('/'));
-
-        //        sessionId = data.session;
-//        sessionId = sessionId.split('/')[-1];
-//
-//        console.log("session id "+sessionId);
-
-        
-          // Create a new session
-          const sessionClient = new dialogflow.SessionsClient();
-          const sessionPath = sessionClient.sessionPath(
-              config.GOOGLE_PROJECT_ID,
-              sessionId
-          );
-        console.log("session path "+sessionPath);
+        const sessionPath = sessionClient.sessionPath(
+            config.GOOGLE_PROJECT_ID,
+            sessionId
+        );
         var textString = "something smart";
-        
+
         const request = {
             session: sessionPath,
             queryInput: {
@@ -117,23 +77,84 @@ async function sendToDialogFlow(data, params)
                 }
             }
         };
-        
-        console.log("session client"+JSON.stringify(sessionClient));
-        const responses = await sessionClient.detectIntent(request);
-        
-        console.log("responses:"+JSON.stringify(responses));
-        
-//        const result = responses[0].queryResult;
-//        handleDialogFlowResponse(sender, result);
+
+        sessionClient
+            .detectIntent(request)
+            .then(responses => {
+                console.log(request);
+                console.log(responses);
+                console.log(JSON.stringify(responses));
+            })
+            .catch(err => {
+                console.error('ERROR**:', err);
+            });
     } catch (e) {
         console.log('error');
         console.log(e);
-    }     
+    }
+}
+
+
+/*
+ * All callbacks for Messenger are POST-ed. They will be sent to the same
+ * webhook. Be sure to subscribe your app to your page to receive callbacks
+ * for your page. 
+ * https://developers.facebook.com/docs/messenger-platform/product-overview/setup#subscribe_app
+ *
+ */
+app.post('/webhook/', function(req, res) {
+    var data = req.body;
+    console.log(JSON.stringify(data));
+    sendToDialogFlow(data);
+    res.sendStatus(200);
+});
+
+async function sendToDialogFlow(data, params) {
+    try {
+
+        var sessionId = data.session.split('/')[4];
+
+        const sessionPath = sessionClient.sessionPath(
+            config.GOOGLE_PROJECT_ID,
+            sessionId
+        );
+        var textString = "something smart";
+
+        const request = {
+            session: sessionPath,
+            queryInput: {
+                text: {
+                    text: textString,
+                    languageCode: config.DF_LANGUAGE_CODE,
+                },
+            },
+            queryParams: {
+                payload: {
+                    data: params
+                }
+            }
+        };
+
+        sessionClient
+            .detectIntent(request)
+            .then(responses => {
+                console.log(request);
+                console.log(responses);
+                console.log(JSON.stringify(responses));
+            })
+            .catch(err => {
+                console.error('ERROR**:', err);
+            });
+
+    } catch (e) {
+        console.log('error');
+        console.log(e);
+    }
 }
 
 
 
 // Spin up the server
-app.listen(app.get('port'), function () {
+app.listen(app.get('port'), function() {
     console.log('running on port', app.get('port'))
 })
