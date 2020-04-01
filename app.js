@@ -138,9 +138,46 @@ async function sendToDialogFlow(data, params, res) {
             .detectIntent(request)
             .then(responses => {
 
-			res.json({
-			            "fulfillmentText": "HELL WORLD DOG"
-			        });
+			res.json(
+				{
+  "payload": {
+    "google": {
+      "expectUserResponse": true,
+      "richResponse": {
+        "items": [
+          {
+            "simpleResponse": {
+              "textToSpeech": "Simple Responses must be included."
+            }
+          },
+          {
+            "basicCard": {
+              "title": "Title: this is a title",
+              "subtitle": "This is a subtitle",
+              "formattedText": "This is a basic card.  Text in a basic card can include \"quotes\" and\nmost other unicode characters including emoji 📱.  Basic cards also support\nsome markdown formatting like *emphasis* or _italics_, **strong** or\n__bold__, and ***bold itallic*** or ___strong emphasis___ as well as other\nthings like line  \nbreaks",
+              "image": {
+                "url": "https://example.com/image.png",
+                "accessibilityText": "This is an image of an image"
+              },
+              "buttons": [
+                {
+                  "title": "This is a button",
+                  "openUrlAction": {
+                    "url": "https://assistant.google.com/"
+                  }
+                }
+              ],
+              "imageDisplayOptions": "CROPPED"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+				
+				
+			);
 //	            res.json(responses);
 				//res.sendStatus(200);
 
