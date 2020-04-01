@@ -139,40 +139,58 @@ async function sendToDialogFlow(data, params, res) {
             .then(responses => {
 
 			res.json(
-				{
-  "payload": {
-    "google": {
-      "expectUserResponse": true,
-      "richResponse": {
-        "items": [
-          {
-            "simpleResponse": {
-              "textToSpeech": "Simple Responses must be included."
-            }
-          },
-          {
-            "basicCard": {
-              "title": "Title: this is a title",
-              "subtitle": "This is a subtitle",
-              "formattedText": "This is a basic card.  Text in a basic card can include \"quotes\" and\nmost other unicode characters including emoji 📱.  Basic cards also support\nsome markdown formatting like *emphasis* or _italics_, **strong** or\n__bold__, and ***bold itallic*** or ___strong emphasis___ as well as other\nthings like line  \nbreaks",
-              "image": {
-                "url": "https://example.com/image.png",
-                "accessibilityText": "This is an image of an image"
-              },
-              "buttons": [
-                {
-                  "title": "This is a button",
-                  "openUrlAction": {
-                    "url": "https://assistant.google.com/"
-                  }
-                }
-              ],
-              "imageDisplayOptions": "CROPPED"
-            }
-          }
-        ]
-      }
+{
+"fulfillmentText": "This is a text response",
+"fulfillmentMessages": [
+  {
+    "card": {
+      "title": "card title",
+      "subtitle": "card text",
+      "imageUri": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png",
+      "buttons": [
+        {
+          "text": "button text",
+          "postback": "https://assistant.google.com/"
+        }
+      ]
     }
+  }
+],
+"source": "example.com",
+"payload": {
+  "google": {
+    "expectUserResponse": true,
+    "richResponse": {
+      "items": [
+        {
+          "simpleResponse": {
+            "textToSpeech": "this is a simple response"
+          }
+        }
+      ]
+    }
+  },
+  "facebook": {
+    "text": "Hello, Facebook!"
+  },
+  "slack": {
+    "text": "This is a text response for Slack."
+  }
+},
+"outputContexts": [
+  {
+    "name": "projects/${PROJECT_ID}/agent/sessions/${SESSION_ID}/contexts/context name",
+    "lifespanCount": 5,
+    "parameters": {
+      "param": "param value"
+    }
+  }
+],
+"followupEventInput": {
+  "name": "event name",
+  "languageCode": "en-US",
+  "parameters": {
+    "param": "param value"
   }
 }
 				
