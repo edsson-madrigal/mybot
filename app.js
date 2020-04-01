@@ -138,9 +138,12 @@ async function sendToDialogFlow(data, params) {
         sessionClient
             .detectIntent(request)
             .then(responses => {
+	            res.json(responses);
+/*
                 console.log(request);
                 console.log(responses);
                 console.log(JSON.stringify(responses));
+*/
             })
             .catch(err => {
                 console.error('ERROR**:', err);
