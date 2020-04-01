@@ -138,7 +138,7 @@ async function sendToDialogFlow(data, params, res) {
             .detectIntent(request)
             .then(responses => {
 	            res.json(responses);
-				res.sendStatus(200);
+				//res.sendStatus(200);
 
 /*
                 console.log(request);
