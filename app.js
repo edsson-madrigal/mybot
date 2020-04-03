@@ -1,217 +1,67 @@
+// See https://github.com/dialogflow/dialogflow-fulfillment-nodejs
+// for Dialogflow fulfillment library docs, samples, and to report issues
 'use strict';
-
-const dialogflow = require('dialogflow');
-const config = require('./config');
+ 
+const {WebhookClient} = require('dialogflow-fulfillment');
+const {Card, Suggestion} = require('dialogflow-fulfillment');
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const app = express();
-const uuid = require('uuid');
-
-
-if (!config.GOOGLE_PROJECT_ID) {
-    throw new Error('missing GOOGLE_PROJECT_ID');
-}
-if (!config.DF_LANGUAGE_CODE) {
-    throw new Error('missing DF_LANGUAGE_CODE');
-}
-if (!config.GOOGLE_CLIENT_EMAIL) {
-    throw new Error('missing GOOGLE_CLIENT_EMAIL');
-}
-if (!config.GOOGLE_PRIVATE_KEY) {
-    throw new Error('missing GOOGLE_PRIVATE_KEY');
-}
-if (!config.SERVER_URL) { //used for ink to static files
-    throw new Error('missing SERVER_URL');
-}
-
-
-
-app.set('port', (process.env.PORT || 5000))
-
-app.use(bodyParser.urlencoded({
-    extended: false
-}));
-
-app.use(bodyParser.json());
-
-
-
-
-const credentials = {
-    client_email: config.GOOGLE_CLIENT_EMAIL,
-    private_key: config.GOOGLE_PRIVATE_KEY,
-};
-
-const sessionClient = new dialogflow.SessionsClient(
-    {
-        projectId: config.GOOGLE_PROJECT_ID,
-        credentials
-    }
-);
-
-
-const sessionIds = new Map();
-
-//sendToDialogFlow2("fbcd6e2b-70f3-f317-d135-1b09c83018bb");
-
-async function sendToDialogFlow2(sessionId, params) {
-    try {
-        const sessionPath = sessionClient.sessionPath(
-            config.GOOGLE_PROJECT_ID,
-            sessionId
-        );
-        var textString = "something smart";
-
-        const request = {
-            session: sessionPath,
-            queryInput: {
-                text: {
-                    text: textString,
-                    languageCode: config.DF_LANGUAGE_CODE,
-                },
-            },
-            queryParams: {
-                payload: {
-                    data: params
-                }
-            }
-        };
-
-        sessionClient
-            .detectIntent(request)
-            .then(responses => {
-                console.log(request);
-                console.log(responses);
-                console.log(JSON.stringify(responses));
-            })
-            .catch(err => {
-                console.error('ERROR**:', err);
-            });
-    } catch (e) {
-        console.log('error');
-        console.log(e);
-    }
-}
-
-
-/*
- * All callbacks for Messenger are POST-ed. They will be sent to the same
- * webhook. Be sure to subscribe your app to your page to receive callbacks
- * for your page. 
- * https://developers.facebook.com/docs/messenger-platform/product-overview/setup#subscribe_app
- *
- */
+ 
 app.post('/webhook/', function(req, res) {
     var data = req.body;
-    console.log(JSON.stringify(data));
-    sendToDialogFlow(data,"",res);
+	const agent = new WebhookClient({ request, response });
+	console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
+	console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
+	
+	function welcome(agent) {
+	agent.add(`Welcome to my agent!`);
+	}
+	
+	function fallback(agent) {
+	agent.add(`I didn't understand`);
+	agent.add(`I'm sorry, can you try again?`);
+	}
+	
+	// // Uncomment and edit to make your own intent handler
+	// // uncomment `intentMap.set('your intent name here', yourFunctionHandler);`
+	// // below to get this function to be run when a Dialogflow intent is matched
+	// function yourFunctionHandler(agent) {
+	//   agent.add(`This message is from Dialogflow's Cloud Functions for Firebase editor!`);
+	//   agent.add(new Card({
+	//       title: `Title: this is a card title`,
+	//       imageUrl: 'https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png',
+	//       text: `This is the body text of a card.  You can even use line\n  breaks and emoji! 💁`,
+	//       buttonText: 'This is a button',
+	//       buttonUrl: 'https://assistant.google.com/'
+	//     })
+	//   );
+	//   agent.add(new Suggestion(`Quick Reply`));
+	//   agent.add(new Suggestion(`Suggestion`));
+	//   agent.setContext({ name: 'weather', lifespan: 2, parameters: { city: 'Rome' }});
+	// }
+	
+	// // Uncomment and edit to make your own Google Assistant intent handler
+	// // uncomment `intentMap.set('your intent name here', googleAssistantHandler);`
+	// // below to get this function to be run when a Dialogflow intent is matched
+	// function googleAssistantHandler(agent) {
+	//   let conv = agent.conv(); // Get Actions on Google library conv instance
+	//   conv.ask('Hello from the Actions on Google client library!') // Use Actions on Google library
+	//   agent.add(conv); // Add Actions on Google library responses to your agent's response
+	// }
+	// // See https://github.com/dialogflow/fulfillment-actions-library-nodejs
+	// // for a complete Dialogflow fulfillment library Actions on Google client library v2 integration sample
+	
+	// Run the proper function handler based on the matched Dialogflow intent name
+	let intentMap = new Map();
+	intentMap.set('Default Welcome Intent', welcome);
+	intentMap.set('Default Fallback Intent', fallback);
+	// intentMap.set('your intent name here', yourFunctionHandler);
+	// intentMap.set('your intent name here', googleAssistantHandler);
+	agent.handleRequest(intentMap);
+	
+    
+    
 });
 
-async function sendToDialogFlow(data, params, res) {
-    try {
-
-        var sessionId = data.session.split('/')[4];
-
-        const sessionPath = sessionClient.sessionPath(
-            config.GOOGLE_PROJECT_ID,
-            sessionId
-        );
-        var textString = "something smart";
-
-        const request = {
-            session: sessionPath,
-            queryInput: {
-                text: {
-                    text: textString,
-                    languageCode: config.DF_LANGUAGE_CODE,
-                },
-            },
-            queryParams: {
-                payload: {
-                    data: params
-                }
-            }
-        };
-
-        sessionClient
-            .detectIntent(request)
-            .then(responses => {
-
-			res.json({
-  fulfillmentText: 'This is a text response',
-  fulfillmentMessages: [
-    {
-      card: {
-        title: 'card title',
-        subtitle: 'card text',
-        imageUri: 'https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png',
-        buttons: [
-          {
-            text: 'button text',
-            postback: 'https://assistant.google.com/'
-          }
-        ]
-      }
-    }
-  ],
-payload: {
-    google: {
-      expectUserResponse: true,
-      richResponse: {
-        items: [
-          {
-            simpleResponse: {
-              textToSpeech: 'Simple Responses must be included.'
-            }
-          },
-          {
-            basicCard: {
-              title: 'Title: this is a title',
-              subtitle: 'This is a subtitle',
-              formattedText: 'This is a basic card.  Text in a basic card can include "quotes" and\nmost other unicode characters including emoji 📱.  Basic cards also support\nsome markdown formatting like *emphasis* or _italics_, **strong** or\n__bold__, and ***bold itallic*** or ___strong emphasis___ as well as other\nthings like line  \nbreaks',
-              image: {
-                url: 'https://example.com/image.png',
-                accessibilityText: 'This is an image of an image'
-              },
-              buttons: [
-                {
-                  title: 'This is a button',
-                  openUrlAction: {
-                    url: 'https://assistant.google.com/'
-                  }
-                }
-              ],
-              imageDisplayOptions: []
-            }
-          }
-        ]
-      }
-    }
-  }
-});
-//	            res.json(responses);
-				//res.sendStatus(200);
-
-/*
-                console.log(request);
-                console.log(responses);
-                console.log(JSON.stringify(responses));
-*/
-            })
-            .catch(err => {
-                console.error('ERROR**:', err);
-            });
-
-    } catch (e) {
-        console.log('error');
-        console.log(e);
-    }
-}
-
-
-
-// Spin up the server
-app.listen(app.get('port'), function() {
-    console.log('running on port', app.get('port'))
-})
