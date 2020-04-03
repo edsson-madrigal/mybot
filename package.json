@@ -17,6 +17,7 @@
     "dialogflow": "*",
     "express": "*",
     "request": "*",
-    "uuid": "*"
+    "uuid": "*",
+    "dialogflow-fulfillment" : "*"
   }
 }
