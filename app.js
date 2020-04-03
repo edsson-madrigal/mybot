@@ -2,8 +2,10 @@
 // for Dialogflow fulfillment library docs, samples, and to report issues
 'use strict';
  
+/*
 const {WebhookClient} = require('dialogflow-fulfillment');
 const {Card, Suggestion} = require('dialogflow-fulfillment');
+*/
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
