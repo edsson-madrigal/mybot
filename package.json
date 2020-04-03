@@ -18,6 +18,7 @@
     "express": "*",
     "request": "*",
     "uuid": "*",
-    "dialogflow-fulfillment" : "*"
+    "dialogflow-fulfillment": "*",
+    "actions-on-google": "*"
   }
 }
